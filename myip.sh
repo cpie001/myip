@@ -1,13 +1,13 @@
-#! /bin/sh
-#curl ipinfo.io/ip | ssmtp xxx@gmail.com
+! /bin/sh
+#to run as a cron script save to /etc/cron.hourly(weekly etc..set correct email
 currentIp=$(curl ipinfo.io/ip)
-oldIp="$(cat /home/dada/Desktop/test.csv)"
+oldIp="$(tail /home/dada/Programming/myip/currentIp.csv)"
 #echo currentIp $currentIp oldIp $oldIp
     if [ "$currentIp" != "$oldIp" ];
         then 
-            echo $currentIp > /home/dada/Desktop/test.txt
-            echo $currentIp > /home/dada/Desktop/test.csv
-            echo $currentIp | ssmtp xxxxx@gmail.com
+            echo $currentIp > /home/dada/Programming/myip/currentIp.csv
+            echo "$currentIp,$(date)" >> /home/dada/Programming/myip/historyIp.csv
+            printf "Subject: ADDRESS CHANGE\n\n $currentIp" | ssmtp xxxx@gmail.com
         else
             echo 'no change'
             
